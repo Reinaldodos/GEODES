@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r include=FALSE}
 pacman::p_load(gganimate, drake, tidyverse, magick)
 source(file = "Fonctions.R")
 ```
