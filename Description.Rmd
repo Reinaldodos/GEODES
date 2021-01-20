@@ -12,8 +12,19 @@ pacman::p_load(gganimate, drake, tidyverse, magick)
 source(file = "Fonctions.R")
 ```
 
+```{r}
+plotly::ggplotly(p = readd(Reff_region_plot), dynamicTicks = T)
+plotly::ggplotly(p = readd(Reff_nat_plot), dynamicTicks = T)
+
+```
+
 ```{r message=FALSE, warning=FALSE}
-readd(input) %>% select(Region = region_name, dep) %>% distinct() %>% 
+do_Carte(Carte = readd(Carte),
+         Situation = readd(Situation_dep),
+         N = 10)
+
+readd(input) %>%
+  select(Region = region_name, dep) %>% distinct() %>%
   inner_join(y = readd(Situation_region), by = "Region") %>% 
   do_Carte(Carte = readd(Carte), N = 10)
 ```

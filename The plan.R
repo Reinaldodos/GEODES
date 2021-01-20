@@ -27,7 +27,7 @@ the_plan =
     Reff_region = map(.f = Extract_Reff, .x = Estimation_region) %>% bind_rows(.id = "Region"),
     Reff_dep = map(.f = Extract_Reff, .x = Estimation_dep) %>% bind_rows(.id = "dep"),
     
-    Reff_nat_plot = plot(Reff_nat),
+    Reff_nat_plot = Reff_plot(Reff = Reff_nat, selon = "NA"),
     Reff_region_plot = Reff_plot(Reff = Reff_region, selon = Region),
     Reff_dep_plot = Reff_plot(Reff = Reff_dep, selon = dep),
     
@@ -44,12 +44,5 @@ drake::clean()
 make(the_plan)
 drake::vis_drake_graph(the_plan)
 
-do_Carte(
-  Carte = readd(Carte),
-  Situation = readd(Situation_dep),
-  N = 10
-)
 
 
-
-plotly::ggplotly(p = readd(Reff_region_plot), dynamicTicks = T)
