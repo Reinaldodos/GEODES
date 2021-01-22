@@ -4,7 +4,7 @@ source(file = "Fonctions.R")
 the_plan =
   drake::drake_plan(
     data = "https://www.data.gouv.fr/en/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7",
-    Regions_dep =  "~/Téléchargements/departements-region.csv",
+    Regions_dep =  "departements-region.csv",
     input = fetch_data(data = data, Regions_dep = Regions_dep),
     output = merdouilles_dates(input = input),
     
