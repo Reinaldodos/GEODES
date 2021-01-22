@@ -39,7 +39,7 @@ PLOT =
   tidyr::complete(Date, Region,
                   fill = list(MIN = 1, MAX = 1)) %>%
   filter(Date > lubridate::dmy(01012021)) %>%
-  ggplot(mapping = aes(y = rev(Region))) +
+  ggplot(mapping = aes(y = Region)) +
   geom_linerange(mapping = aes(xmin = MIN,
                                xmax = MAX)) +
   geom_vline(xintercept = 1, colour = "red")
