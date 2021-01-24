@@ -57,7 +57,7 @@ anim =
 ```
 
 ```{r}
-gganimate::animate(plot = anim,
-                   renderer = magick_renderer(loop = T))
+# gganimate::animate(plot = anim,
+#                    renderer = magick_renderer(loop = T))
 ```
 
