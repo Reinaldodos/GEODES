@@ -62,8 +62,8 @@ Estimate <- function(incidence) {
   require(EpiEstim)
   incidence %>%
     estimate_R(method = "parametric_si",
-               config = make_config(list(mean_si = 5.71,
-                                         std_si = 3.89))) %>%
+               config = EpiEstim::make_config(list(mean_si = 3.96,
+                                                   std_si = 4.75))) %>%
     return()
 }
 
