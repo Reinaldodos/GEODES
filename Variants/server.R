@@ -78,6 +78,12 @@ shinyServer(function(input, output) {
                               colour = "blue")
         }
         
+        if (input$Log_scale) {
+            PLOTT =
+                PLOTT +
+                scale_y_log10()
+        }
+        
         
         
         return(PLOTT)
