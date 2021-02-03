@@ -4,6 +4,7 @@
 library(shiny)
 
 TEST <- function(R_sauvage, Ratio_variant, Surinfection, Init_total) {
+    Tau = 3.96
     R_variant = R_sauvage * Surinfection
     
     K_sauvage = log(R_sauvage)/Tau
@@ -42,7 +43,7 @@ shinyServer(function(input, output) {
                 Surinfection = 1 + input$Surinfection / 100,
                 Init_total = as.integer(input$Init_total)
             )
-        
+        require(ggplot2)
         PLOTT =
             plot =
             ggplot(
