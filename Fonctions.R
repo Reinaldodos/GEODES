@@ -114,8 +114,9 @@ do_Carte <- function(Carte, Situation, N) {
     st_as_sf() %>% 
     choroLayer(
       var = "Proba",
-      method = "equal", 
-      nclass = N,
+      # method = "quantile", 
+      breaks = seq(0,100,10),
+      # nclass = N,
       col = rev(RColorBrewer::brewer.pal(n = N, 
                                          name = "RdYlGn")))
 }
