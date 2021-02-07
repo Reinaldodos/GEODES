@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r include=FALSE}
-pacman::p_load(gganimate, drake, tidyverse, magick)
+pacman::p_load(drake, tidyverse)
 source(file = "Fonctions.R")
 ```
 
@@ -28,5 +28,3 @@ readd(input) %>%
   inner_join(y = readd(Situation_region), by = "Region") %>% 
   do_Carte(Carte = readd(Carte), N = 10)
 ```
-
-
