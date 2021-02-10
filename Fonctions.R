@@ -43,7 +43,7 @@ merdouilles_dates <- function(input) {
 Calcul_incidence <- function(input, selon) {
   require(lubridate)
   require(incidence)
-  Dates = input %>% pull(jour)
+  Dates = input %>% pull(jour) %>% as.character()
   REPS = input %>% pull({
     {
       selon
@@ -53,7 +53,8 @@ Calcul_incidence <- function(input, selon) {
     pmap(.f = rep,
          .l = list(x = Dates,
                    times = REPS)) %>%
-    map(as.character) %>% flatten_chr() %>% ymd()
+    # map(as.character) %>% 
+    flatten_chr() %>% ymd()
   Incidence =  incidence(input_list)
   return(Incidence)
 }
