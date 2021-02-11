@@ -86,9 +86,10 @@ Reff_plot <- function(Reff, selon) {
                              selon
                            }
                          })) +
-    geom_line() +
-    geom_errorbar(mapping = aes(ymin = `Quantile.0.025(R)`,
-                                ymax = `Quantile.0.975(R)`)) +
+    # geom_line() +
+    geom_ribbon(mapping = aes(ymin = `Quantile.0.025(R)`,
+                                ymax = `Quantile.0.975(R)`),
+              alpha = .5) +
     geom_hline(yintercept = 1, colour = "red") +
     geom_vline(xintercept =
                  c(dmy(13032020),
