@@ -28,3 +28,14 @@ readd(input) %>%
   inner_join(y = readd(Situation_region), by = "Region") %>% 
   do_Carte(Carte = readd(Carte), N = 10)
 ```
+```{r}
+readd(output_urbaines) %>% 
+  CartO(selon = LOW) +
+  labs(subtitle = paste("Hypothèse basse", lubridate::today()))
+
+readd(output_urbaines) %>% 
+  CartO(selon = HIGH) +
+  labs(subtitle = paste("Hypothèse haute", lubridate::today()))
+
+```
+
