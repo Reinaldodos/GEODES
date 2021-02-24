@@ -35,9 +35,7 @@ the_plan =
     Situation_region = Situation(Reff = Reff_region),
     Situation_dep = Situation(Reff = Reff_dep),
 
-    Carte = sf::st_read("https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb"),
-    # Carte_region = do_Carte(Carte = Carte, Situation = Situation_region, N = 10),
-    # Carte_dep = do_Carte(Carte = Carte, Situation = Situation_dep, N = 10)
+    Carte = sf::st_read("https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb")
   )
 
 drake::clean()

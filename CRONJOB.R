@@ -1,6 +1,6 @@
 git2r::pull()
 
-source(file = "The plan.R")
+source(file = "The plan.R", echo = TRUE)
 rmarkdown::render(input = "Description.Rmd", 
                   output_file = "Description.html")
 
