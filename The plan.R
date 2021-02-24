@@ -35,7 +35,13 @@ the_plan =
     Situation_region = Situation(Reff = Reff_region),
     Situation_dep = Situation(Reff = Reff_dep),
 
-    Carte = sf::st_read("https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb")
+    Carte = sf::st_read("https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb"),
+    Bases_urbaines = sf::st_read("~/Téléchargements/fond_AAV2020_geo20/fond_AAV2020_geo20_metro/zMetro.shp"),
+    
+    input_GEODES = rio::import("https://www.data.gouv.fr/fr/datasets/r/c2e2e844-9671-4f81-8c81-1b79f7687de3"),
+    output_GEODES = filtrer_GEODES(input_GEODES = input_GEODES),
+    Population = Charger_INSEE(file = "~/Téléchargements/base-ccc-evol-struct-pop-2017/base-cc-evol-struct-pop-2017.CSV"),
+    output_urbaines = Incidence_aires_urbaines(input = output_GEODES, Population = Population, Bases_urbaines = Bases_urbaines)
   )
 
 drake::clean()
