@@ -4,8 +4,7 @@ pacman::p_load(tidyverse, data.table, rio,
 
 fetch_data <- function(data, Regions_dep) {
   data %>%
-    import(format = "csv") %>%
-    left_join(y = Regions_dep %>% import(),
+    left_join(y = Regions_dep %>% rio::import(),
               by = c("dep" = "num_dep")) %>%
     return()
 }
