@@ -45,7 +45,6 @@ shinyServer(function(input, output) {
             )
         require(ggplot2)
         PLOTT =
-            plot =
             ggplot(
                 data = data.frame(Nb_jours = 0:input$Fenetre),
                 mapping = aes(x = Nb_jours)
