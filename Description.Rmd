@@ -1,6 +1,9 @@
 ---
-title: "Description"
-output: html_document
+title: "Description de la situation épidémique française"
+output: 
+  html_document:
+    theme: journal
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -12,30 +15,52 @@ pacman::p_load(drake, tidyverse)
 source(file = "Fonctions.R")
 ```
 
-```{r}
-plotly::ggplotly(p = readd(Reff_region_plot), dynamicTicks = T)
-plotly::ggplotly(p = readd(Reff_nat_plot), dynamicTicks = T)
+# Estimation du R effectif {.tabset}
 
+## R national
+
+```{r}
+plotly::ggplotly(p = readd(Reff_nat_plot), dynamicTicks = T)
 ```
 
-```{r message=FALSE, warning=FALSE}
-do_Carte(Carte = readd(Carte),
-         Situation = readd(Situation_dep),
-         N = 10)
+## R par région
 
+```{r}
+plotly::ggplotly(p = readd(Reff_region_plot), dynamicTicks = T)
+```
+
+# Probabilité d'un R effectif supérieur à 1 {.tabset}
+
+## Par région
+
+```{r message=FALSE, warning=FALSE}
 readd(input) %>%
   select(Region = region_name, dep) %>% distinct() %>%
   inner_join(y = readd(Situation_region), by = "Region") %>% 
   do_Carte(Carte = readd(Carte), N = 10)
 ```
+
+## Par département
+
+```{r message=FALSE, warning=FALSE}
+do_Carte(Carte = readd(Carte),
+         Situation = readd(Situation_dep),
+         N = 10)
+```
+
+# Taux d'incidence par aire urbaine {.tabset}
+
+## Hypothèse basse
 ```{r}
 readd(output_urbaines) %>% 
   CartO(selon = LOW) +
   labs(subtitle = paste("Hypothèse basse", lubridate::today()))
+```
 
+## Hypothèse haute
+
+```{r}
 readd(output_urbaines) %>% 
   CartO(selon = HIGH) +
   labs(subtitle = paste("Hypothèse haute", lubridate::today()))
-
 ```
-
