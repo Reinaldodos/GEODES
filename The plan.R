@@ -43,7 +43,8 @@ the_plan =
                                format = "csv"),
     output_GEODES = filtrer_GEODES(input_GEODES = input_GEODES),
     Population = Charger_INSEE(file = "~/Téléchargements/base-ccc-evol-struct-pop-2017/base-cc-evol-struct-pop-2017.CSV"),
-    output_urbaines = Incidence_aires_urbaines(input = output_GEODES, Population = Population, Bases_urbaines = Bases_urbaines)
+    output_urbaines = Incidence_aires_urbaines(input = output_GEODES, Population = Population, Bases_urbaines = Bases_urbaines),
+    Dept = "~/Téléchargements/departements.geojson" %>% sf::st_read()
   )
 
 drake::clean()

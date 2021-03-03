@@ -220,7 +220,7 @@ CartO <- function(data, selon) {
                                  "[10;50[ (Zone verte)",
                                  "[50;150[ (Alerte)",
                                  "[150;250[ (Alerte renforcée)",
-                                 "> 250 (Hors de contrôle)")
+                                 "> 250 (Surveillance renforcée)")
       )
     ) %>%
     ggplot() +
