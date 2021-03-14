@@ -48,7 +48,7 @@ the_plan =
   )
 
 drake::clean()
-drake::r_make(the_plan)
+drake::make(the_plan)
 drake::vis_drake_graph(the_plan)
 
 

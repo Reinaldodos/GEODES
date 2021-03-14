@@ -262,9 +262,3 @@ CartO <- function(data, selon) {
   return(GRAPHE)
 }
 
-RColorBrewer::display.brewer.all(
-  n = 5,
-  type = "div",
-  exact.n = T,
-  colorblindFriendly = T
-)
