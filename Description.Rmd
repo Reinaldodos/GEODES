@@ -51,6 +51,7 @@ do_Carte(Carte = readd(Carte),
 # Taux d'incidence par aire urbaine {.tabset}
 
 ## Hypothèse basse
+
 ```{r}
 readd(output_urbaines) %>% 
   CartO(selon = LOW) +
