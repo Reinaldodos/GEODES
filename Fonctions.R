@@ -1,4 +1,4 @@
-pacman::p_load(tidyverse, data.table, rio, 
+pacman::p_load(tidyverse, data.table, rio,
                lubridate,
                sf, cartography)
 
@@ -52,7 +52,7 @@ Calcul_incidence <- function(input, selon) {
     pmap(.f = rep,
          .l = list(x = Dates,
                    times = REPS)) %>%
-    # map(as.character) %>% 
+    # map(as.character) %>%
     flatten_chr() %>% ymd()
   Incidence =  incidence(input_list)
   return(Incidence)
@@ -86,9 +86,11 @@ Reff_plot <- function(Reff, selon) {
                            }
                          })) +
     # geom_line() +
-    geom_ribbon(mapping = aes(ymin = `Quantile.0.025(R)`,
-                                ymax = `Quantile.0.975(R)`),
-              alpha = .5) +
+    geom_ribbon(
+      mapping = aes(ymin = `Quantile.0.025(R)`,
+                    ymax = `Quantile.0.975(R)`),
+      alpha = .5
+    ) +
     geom_hline(yintercept = 1, colour = "red") +
     geom_vline(xintercept =
                  c(dmy(13032020),
@@ -108,18 +110,19 @@ Situation = function(Reff) {
 }
 
 do_Carte <- function(Carte, Situation, N) {
-    Carte %>%
+  Carte %>%
     select(dep = code, geometry) %>%
     inner_join(x = Situation) %>%
-    mutate(Proba = 100 * Proba) %>% 
-    st_as_sf() %>% 
+    mutate(Proba = 100 * Proba) %>%
+    st_as_sf() %>%
     choroLayer(
       var = "Proba",
-      # method = "quantile", 
-      breaks = seq(0,100,10),
+      # method = "quantile",
+      breaks = seq(0, 100, 10),
       # nclass = N,
-      col = rev(RColorBrewer::brewer.pal(n = N, 
-                                         name = "RdYlGn")))
+      col = rev(RColorBrewer::brewer.pal(n = N,
+                                         name = "RdYlGn"))
+    )
 }
 
 filtrer_GEODES <- function(input_GEODES) {
@@ -144,105 +147,124 @@ filtrer_GEODES <- function(input_GEODES) {
       pattern = "[^[0-9]]"
     )) %>%
     mutate(across(.cols = c(low, high),
-                  .fns = as.integer)) 
+                  .fns = as.integer))
   
-  input[is.na(input$high),]$high = 2000
+  input[is.na(input$high), ]$high = 2000
   
   return(input)
 }
 
 Charger_INSEE = function(file) {
   rio::import(file) %>%
-  distinct(CODGEO, P17_POP) %>%
-  drop_na()
+    distinct(CODGEO, P17_POP) %>%
+    drop_na()
 }
 
-Incidence_aires_urbaines <- function(Population, input, Bases_urbaines) {
-  output =
-    inner_join(x = Population,
-               y = input,
-               by = c("CODGEO" = "com2020")) %>%
-    mutate(LOW = low / 1e5 * P17_POP,
-           HIGH = high / 1e5 * P17_POP)
-  
-  PLM =
-    anti_join(y = Bases_urbaines %>% as.data.frame(),
-              x = output,
-              by = "CODGEO")
-  output =
-    bind_rows(
-      PLM %>%
-        mutate(
-          AAV20 = case_when(
-            str_detect(string = CODGEO, pattern = "^75") ~ "001",
-            str_detect(string = CODGEO, pattern = "^69") ~ "002",
-            str_detect(string = CODGEO, pattern = "^13") ~ "003"
-          )
-        ),
-      inner_join(
-        x = output,
-        y = Bases_urbaines %>% 
-          as.data.frame() %>% 
-          distinct(CODGEO, AAV20),
-        by = "CODGEO"
-      )
-    ) %>%
-    drop_na() %>%
-    split(f = .$AAV20 == "000")
-  
-  output_urbaines = 
-    bind_rows(
-      output$`FALSE` %>% 
-        group_by(AAV20) %>% 
-        summarise(across(.cols = c(LOW, HIGH, P17_POP),
-                         .fns = sum),
-                  .groups = "drop") %>% 
-        mutate(across(.cols = c(LOW, HIGH), 
-                      .fns = ~ ./P17_POP*1e5)) %>% 
-        inner_join(y = Bases_urbaines %>% as.data.frame() %>% 
-                     distinct(CODGEO, AAV20)),
-      output$`TRUE` %>% 
-        select(CODGEO, LOW = low, HIGH = high)
-    ) %>% 
-    distinct(CODGEO, LOW, HIGH) %>% 
-    inner_join(x = Bases_urbaines)
-  
-  return(output_urbaines)
-}
+Incidence_aires_urbaines <-
+  function(Population, input, Bases_urbaines) {
+    output =
+      inner_join(x = Population,
+                 y = input,
+                 by = c("CODGEO" = "com2020")) %>%
+      mutate(LOW = low / 1e5 * P17_POP,
+             HIGH = high / 1e5 * P17_POP)
+    
+    PLM =
+      anti_join(y = Bases_urbaines %>% as.data.frame(),
+                x = output,
+                by = "CODGEO")
+    output =
+      bind_rows(
+        PLM %>%
+          mutate(
+            AAV20 = case_when(
+              str_detect(string = CODGEO, pattern = "^75") ~ "001",
+              str_detect(string = CODGEO, pattern = "^69") ~ "002",
+              str_detect(string = CODGEO, pattern = "^13") ~ "003"
+            )
+          ),
+        inner_join(
+          x = output,
+          y = Bases_urbaines %>%
+            as.data.frame() %>%
+            distinct(CODGEO, AAV20),
+          by = "CODGEO"
+        )
+      ) %>%
+      drop_na() %>%
+      split(f = .$AAV20 == "000")
+    
+    output_urbaines =
+      bind_rows(
+        output$`FALSE` %>%
+          group_by(AAV20) %>%
+          summarise(across(
+            .cols = c(LOW, HIGH, P17_POP),
+            .fns = sum
+          ),
+          .groups = "drop") %>%
+          mutate(across(
+            .cols = c(LOW, HIGH),
+            .fns = ~ . / P17_POP * 1e5
+          )) %>%
+          inner_join(y = Bases_urbaines %>% as.data.frame() %>%
+                       distinct(CODGEO, AAV20)),
+        output$`TRUE` %>%
+          select(CODGEO, LOW = low, HIGH = high)
+      ) %>%
+      distinct(CODGEO, LOW, HIGH) %>%
+      inner_join(x = Bases_urbaines)
+    
+    return(output_urbaines)
+  }
 
 CartO <- function(data, selon) {
-  GRAPHE = 
-    data %>% 
-    mutate(
-      Incidence = cut(x = {{selon}}, 
-                      breaks = c(-Inf, 10, 50, 150, 250, Inf),
-                      labels = c("< 10 (Zero Covid)", 
-                                 "[10;50[ (Zone verte)",
-                                 "[50;150[ (Alerte)",
-                                 "[150;250[ (Alerte renforcée)",
-                                 "> 250 (Surveillance renforcée)")
+  require(magrittr)
+  Couleurs =
+    RColorBrewer::brewer.pal(n = 5, name = "BrBG") %>% 
+    c("#000000", .) %>% rev()
+  
+  GRAPHE =
+    data %>%
+    mutate(Incidence = cut(
+      x = {
+        {
+          selon
+        }
+      },
+      breaks = c(-Inf, 10, 50, 150, 250, 400, Inf),
+      labels = c(
+        "< 10 (Zero Covid)",
+        "[10;50[ (Zone verte)",
+        "[50;150[ (Alerte)",
+        "[150;250[ (Alerte renforcée)",
+        "> 250 (Surveillance renforcée)",
+        "> 400 (Castex Twitch)"
       )
-    ) %>%
+    )) %>%
     ggplot() +
-    geom_sf(mapping = aes(fill = Incidence, 
+    geom_sf(mapping = aes(fill = Incidence,
                           colour = Incidence)) +
-    scale_fill_brewer(type = "div",
-                      palette = "RdYlGn",
-                      direction = -1) +
-    scale_colour_brewer(type = "div",
-                        palette = "RdYlGn",
-                        direction = -1) +
+    scale_fill_manual(values = Couleurs) +
+    scale_colour_manual(values = Couleurs) +
     theme_void() +
     theme(
       plot.background = element_rect(fill = " light grey"),
-      legend.background = element_rect(fill = "white"), 
+      legend.background = element_rect(fill = "white"),
       plot.title =  element_text(hjust = .5),
       plot.subtitle =  element_text(hjust = .5),
-      plot.caption.position = "plot" 
+      plot.caption.position = "plot"
     ) +
     labs(title = "Taux d'incidence par aire urbaine",
-         caption = 
+         caption =
            "Données: Santé Publique France / INSEE
        Reinaldo Dos Santos @reinaldodos")
   return(GRAPHE)
 }
+
+RColorBrewer::display.brewer.all(
+  n = 5,
+  type = "div",
+  exact.n = T,
+  colorblindFriendly = T
+)
