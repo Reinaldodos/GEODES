@@ -16,9 +16,9 @@ the_plan =
     output_region = split(x = group_region, f = group_region$region_name),
     output_dep = split(x = group_dep, f = group_dep$dep),
     
-    Incidence_nat = Calcul_incidence(input = output_nat, selon = hosp),
-    Incidence_region = map(.f = Calcul_incidence, .x = output_region, selon = hosp),
-    Incidence_dep = map(.f = Calcul_incidence, .x = output_dep, selon = hosp),
+    Incidence_nat = Calcul_incidence(input = output_nat, selon = rea),
+    Incidence_region = map(.f = Calcul_incidence, .x = output_region, selon = rea),
+    Incidence_dep = map(.f = Calcul_incidence, .x = output_dep, selon = rea),
     
     Estimation_nat = Estimate(incidence = Incidence_nat),
     Estimation_region = map(.f = Estimate, .x = Incidence_region),
@@ -48,7 +48,7 @@ the_plan =
   )
 
 drake::clean()
-make(the_plan)
+drake::r_make(the_plan)
 drake::vis_drake_graph(the_plan)
 
 
