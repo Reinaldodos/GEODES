@@ -239,7 +239,7 @@ CartO <- function(data, selon) {
         "[50;150[ (Alerte)",
         "[150;250[ (Alerte renforcée)",
         "> 250 (Surveillance renforcée)",
-        "> 400 (Castex Twitch)"
+        "> 400 (Point de vigilance très fort)"
       )
     )) %>%
     ggplot() +
