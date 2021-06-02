@@ -128,25 +128,25 @@ do_Carte <- function(Carte, Situation, N) {
 filtrer_GEODES <- function(input_GEODES) {
   input =
     input_GEODES %>%
-    filter(clage_65 == 0) %>%
+    dplyr::filter(clage_65 == 0) %>%
     tidyr::extract(
       col = semaine_glissante,
       into = c("day_start", "day_end"),
       regex = "([0-9]{4}-[0-9]{2}-[0-9]{2})-([0-9]{4}-[0-9]{2}-[0-9]{2})",
       remove = FALSE
     )  %>%
-    filter(day_end == max(day_end)) %>%
-    mutate(across(.cols = starts_with("day"),
+    dplyr::filter(day_end == max(day_end)) %>%
+    dplyr::mutate(across(.cols = starts_with("day"),
                   .fns = lubridate::ymd)) %>%
     tidyr::separate(col = ti_classe,
                     into = c("low", "high"),
                     sep = ";") %>%
-    mutate(across(
+    dplyr::mutate(across(
       .cols = c(low, high),
       .fns = str_remove_all,
       pattern = "[^[0-9]]"
     )) %>%
-    mutate(across(.cols = c(low, high),
+    dplyr::mutate(across(.cols = c(low, high),
                   .fns = as.integer))
   
   input[is.na(input$high), ]$high = 2000
