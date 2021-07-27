@@ -16,9 +16,9 @@ the_plan =
     output_region = split(x = group_region, f = group_region$region_name),
     output_dep = split(x = group_dep, f = group_dep$dep),
     
-    Incidence_nat = Calcul_incidence(input = output_nat, selon = rea),
-    Incidence_region = map(.f = Calcul_incidence, .x = output_region, selon = rea),
-    Incidence_dep = map(.f = Calcul_incidence, .x = output_dep, selon = rea),
+    Incidence_nat = Calcul_incidence(input = output_nat, selon = hosp),
+    Incidence_region = map(.f = Calcul_incidence, .x = output_region, selon = hosp),
+    Incidence_dep = map(.f = Calcul_incidence, .x = output_dep, selon = hosp),
     
     Estimation_nat = Estimate(incidence = Incidence_nat),
     Estimation_region = map(.f = Estimate, .x = Incidence_region),
@@ -36,7 +36,7 @@ the_plan =
     Situation_region = Situation(Reff = Reff_region),
     Situation_dep = Situation(Reff = Reff_dep),
 
-    Carte = sf::st_read("https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb"),
+    Carte = sf::st_read(dsn = "https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb"),
     Bases_urbaines = sf::st_read("~/Téléchargements/fond_AAV2020_geo20/fond_AAV2020_geo20_metro/zMetro.shp"),
     
     input_GEODES = rio::import(file = "https://www.data.gouv.fr/fr/datasets/r/c2e2e844-9671-4f81-8c81-1b79f7687de3",
