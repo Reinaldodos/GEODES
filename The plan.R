@@ -16,25 +16,45 @@ the_plan =
     output_region = split(x = group_region, f = group_region$region_name),
     output_dep = split(x = group_dep, f = group_dep$dep),
     
-    Incidence_nat = Calcul_incidence(input = output_nat, selon = hosp),
-    Incidence_region = map(.f = Calcul_incidence, .x = output_region, selon = hosp),
-    Incidence_dep = map(.f = Calcul_incidence, .x = output_dep, selon = hosp),
+    Incidence_nat_hosp = Calcul_incidence(input = output_nat, selon = hosp),
+    Incidence_region_hosp = map(.f = Calcul_incidence, .x = output_region, selon = hosp),
+    Incidence_dep_hosp = map(.f = Calcul_incidence, .x = output_dep, selon = hosp),
+
+    Incidence_nat_rea = Calcul_incidence(input = output_nat, selon = rea),
+    Incidence_region_rea = map(.f = Calcul_incidence, .x = output_region, selon = rea),
+    Incidence_dep_rea = map(.f = Calcul_incidence, .x = output_dep, selon = rea),
     
-    Estimation_nat = Estimate(incidence = Incidence_nat),
-    Estimation_region = map(.f = Estimate, .x = Incidence_region),
-    Estimation_dep = map(.f = Estimate, .x = Incidence_dep),
+    Estimation_nat_hosp = Estimate(incidence = Incidence_nat_hosp),
+    Estimation_region_hosp = map(.f = Estimate, .x = Incidence_region_hosp),
+    Estimation_dep_hosp = map(.f = Estimate, .x = Incidence_dep_hosp),
     
-    Reff_nat = Extract_Reff(estimateR = Estimation_nat),
-    Reff_region = map(.f = Extract_Reff, .x = Estimation_region) %>% bind_rows(.id = "Region"),
-    Reff_dep = map(.f = Extract_Reff, .x = Estimation_dep) %>% bind_rows(.id = "dep"),
+    Estimation_nat_rea = Estimate(incidence = Incidence_nat_rea),
+    Estimation_region_rea = map(.f = Estimate, .x = Incidence_region_rea),
+    Estimation_dep_rea = map(.f = Estimate, .x = Incidence_dep_rea),
     
-    Reff_nat_plot = Reff_plot(Reff = Reff_nat, selon = "NA"),
-    Reff_region_plot = Reff_plot(Reff = Reff_region, selon = Region),
-    Reff_dep_plot = Reff_plot(Reff = Reff_dep, selon = dep),
+    Reff_nat_hosp = Extract_Reff(estimateR = Estimation_nat_hosp),
+    Reff_region_hosp = map(.f = Extract_Reff, .x = Estimation_region_hosp) %>% bind_rows(.id = "Region"),
+    Reff_dep_hosp = map(.f = Extract_Reff, .x = Estimation_dep_hosp) %>% bind_rows(.id = "dep"),
     
-    Situation_nat = Situation(Reff = Reff_nat),
-    Situation_region = Situation(Reff = Reff_region),
-    Situation_dep = Situation(Reff = Reff_dep),
+    Reff_nat_rea = Extract_Reff(estimateR = Estimation_nat_rea),
+    Reff_region_rea = map(.f = Extract_Reff, .x = Estimation_region_rea) %>% bind_rows(.id = "Region"),
+    Reff_dep_rea = map(.f = Extract_Reff, .x = Estimation_dep_rea) %>% bind_rows(.id = "dep"),
+    
+    Reff_nat_plot_hosp = Reff_plot(Reff = Reff_nat_hosp, selon = "NA"),
+    Reff_region_plot_hosp = Reff_plot(Reff = Reff_region_hosp, selon = Region),
+    Reff_dep_plot_hosp = Reff_plot(Reff = Reff_dep_hosp, selon = dep),
+    
+    Reff_nat_plot_rea = Reff_plot(Reff = Reff_nat_rea, selon = "NA"),
+    Reff_region_plot_rea = Reff_plot(Reff = Reff_region_rea, selon = Region),
+    Reff_dep_plot_rea = Reff_plot(Reff = Reff_dep_rea, selon = dep),
+    
+    Situation_nat_hosp = Situation(Reff = Reff_nat_hosp),
+    Situation_region_hosp = Situation(Reff = Reff_region_hosp),
+    Situation_dep_hosp = Situation(Reff = Reff_dep_hosp),
+
+    Situation_nat_rea = Situation(Reff = Reff_nat_rea),
+    Situation_region_rea = Situation(Reff = Reff_region_rea),
+    Situation_dep_rea = Situation(Reff = Reff_dep_rea),
 
     Carte = sf::st_read(dsn = "https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb"),
     Bases_urbaines = sf::st_read("~/Téléchargements/fond_AAV2020_geo20/fond_AAV2020_geo20_metro/zMetro.shp"),

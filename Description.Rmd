@@ -15,36 +15,73 @@ pacman::p_load(drake, tidyverse)
 source(file = "Fonctions.R")
 ```
 
-# Estimation du R effectif {.tabset}
+# Selon les entrées en hospitalisation {.tabset}
 
-## R national
+## Estimation du R effectif {.tabset}
 
-```{r}
-plotly::ggplotly(p = readd(Reff_nat_plot), dynamicTicks = T)
-```
-
-## R par région
+### R national
 
 ```{r}
-plotly::ggplotly(p = readd(Reff_region_plot), dynamicTicks = T)
+plotly::ggplotly(p = readd(Reff_nat_plot_hosp), dynamicTicks = T)
 ```
 
-# Probabilité d'un R effectif supérieur à 1 {.tabset}
+### R par région
 
-## Par région
+```{r}
+plotly::ggplotly(p = readd(Reff_region_plot_hosp), dynamicTicks = T)
+```
+
+## Probabilité d'un R effectif supérieur à 1 {.tabset}
+
+### Par région
 
 ```{r message=FALSE, warning=FALSE}
 readd(input) %>%
   select(Region = region_name, dep) %>% distinct() %>%
-  inner_join(y = readd(Situation_region), by = "Region") %>% 
+  inner_join(y = readd(Situation_region_hosp), by = "Region") %>% 
   do_Carte(Carte = readd(Carte), N = 10)
 ```
 
-## Par département
+### Par département
 
 ```{r message=FALSE, warning=FALSE}
 do_Carte(Carte = readd(Carte),
-         Situation = readd(Situation_dep),
+         Situation = readd(Situation_dep_hosp),
+         N = 10)
+```
+
+# Selon les entrées en réanimation {.tabset}
+
+## Estimation du R effectif {.tabset}
+
+### R national
+
+```{r}
+plotly::ggplotly(p = readd(Reff_nat_plot_rea), dynamicTicks = T)
+```
+
+### R par région
+
+```{r}
+plotly::ggplotly(p = readd(Reff_region_plot_rea), dynamicTicks = T)
+```
+
+## Probabilité d'un R effectif supérieur à 1 {.tabset}
+
+### Par région
+
+```{r message=FALSE, warning=FALSE}
+readd(input) %>%
+  select(Region = region_name, dep) %>% distinct() %>%
+  inner_join(y = readd(Situation_region_rea), by = "Region") %>% 
+  do_Carte(Carte = readd(Carte), N = 10)
+```
+
+### Par département
+
+```{r message=FALSE, warning=FALSE}
+do_Carte(Carte = readd(Carte),
+         Situation = readd(Situation_dep_rea),
          N = 10)
 ```
 
