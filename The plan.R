@@ -11,10 +11,9 @@ the_plan =
     
     output_nat = split_data(data = output),
     group_region = split_data(data = output, region_name),
-    group_dep = split_data(data = output, dep),
-    
+
     output_region = split(x = group_region, f = group_region$region_name),
-    output_dep = split(x = group_dep, f = group_dep$dep),
+    output_dep = split(x = output, f = output$dep),
     
     Incidence_nat_hosp = Calcul_incidence(input = output_nat, selon = hosp),
     Incidence_region_hosp = map(.f = Calcul_incidence, .x = output_region, selon = hosp),
@@ -67,7 +66,7 @@ the_plan =
     Dept = "~/Téléchargements/departements.geojson" %>% sf::st_read()
   )
 
-drake::clean()
+drake::clean(list = data)
 drake::make(the_plan)
 drake::vis_drake_graph(the_plan)
 

@@ -6,7 +6,8 @@ fetch_data <- function(data, Regions_dep) {
   data %>%
     left_join(y = Regions_dep %>% rio::import(),
               by = c("dep" = "num_dep")) %>%
-    return()
+    filter(sexe == 0) %>% 
+  return()
 }
 
 split_data <- function(data, ...) {
@@ -36,23 +37,22 @@ merdouilles_dates <- function(input) {
   
   
   bind_rows(date_ymd, date_dmy) %>%
+    filter(hosp > 0 | rea > 0) %>% 
     return()
 }
 
 Calcul_incidence <- function(input, selon) {
   require(lubridate)
+  require(magrittr)
   require(incidence)
+  input %<>% filter({{selon}} > 0)
   Dates = input %>% pull(jour) %>% as.character()
-  REPS = input %>% pull({
-    {
-      selon
-    }
-  })
+  REPS = input %>% pull({{selon}})
+  
   input_list =
     pmap(.f = rep,
          .l = list(x = Dates,
                    times = REPS)) %>%
-    # map(as.character) %>%
     flatten_chr() %>% ymd()
   Incidence =  incidence(input_list)
   return(Incidence)
