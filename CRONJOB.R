@@ -1,3 +1,7 @@
+setwd(dir = "~/R/GEODES/")
+ssh_auth_sock <- system("echo $SSH_AUTH_SOCK", intern = TRUE)
+Sys.setenv(SSH_AUTH_SOCK = ssh_auth_sock)
+
 git2r::pull()
 
 source(file = "The plan.R", echo = TRUE)
