@@ -1,7 +1,10 @@
 setwd(dir = "~/R/GEODES/")
 ssh_auth_sock <- system("echo $SSH_AUTH_SOCK", intern = TRUE)
 Sys.setenv(SSH_AUTH_SOCK = ssh_auth_sock)
+Sys.setenv(RSTUDIO_PANDOC="/usr/lib/rstudio/bin/pandoc")
 
+require(git2r)
+require(rmarkdown)
 repo = git2r::repository()
 SSH = git2r::cred_ssh_key()
 

@@ -66,9 +66,9 @@ the_plan =
     Dept = "~/Téléchargements/departements.geojson" %>% sf::st_read()
   )
 
-drake::clean(list = data)
+drake::clean(list = c("data"))
 drake::make(the_plan)
-drake::vis_drake_graph(the_plan)
+# drake::vis_drake_graph(the_plan)
 
 
 
