@@ -1,5 +1,6 @@
 ---
 title: "Description de la situation épidémique française"
+date: "`r format(Sys.time(), '%d/%m/%y')`"
 output: 
   html_document:
     theme: journal
