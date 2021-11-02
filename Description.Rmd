@@ -1,14 +1,12 @@
 ---
 title: "Description de la situation épidémique française"
 date: "`r format(Sys.time(), '%d/%m/%y')`"
-output: 
-  html_document:
-    theme: journal
-    code_folding: hide
+author: "Reinaldo Dos Santos @reinaldodos"
+output: flexdashboard::flex_dashboard
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
 ```{r include=FALSE}
@@ -88,7 +86,7 @@ do_Carte(Carte = readd(Carte),
 
 # Taux d'incidence par aire urbaine {.tabset}
 
-## Hypothèse basse
+### Hypothèse basse
 
 ```{r}
 readd(output_urbaines) %>% 
@@ -97,7 +95,7 @@ readd(output_urbaines) %>%
   geom_sf(data = readd(Dept), alpha = 0)
 ```
 
-## Hypothèse haute
+### Hypothèse haute
 
 ```{r}
 readd(output_urbaines) %>% 
