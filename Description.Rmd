@@ -84,7 +84,9 @@ do_Carte(Carte = readd(Carte),
          N = 10)
 ```
 
-# Taux d'incidence par aire urbaine {.tabset}
+# Taux d'incidence par aire urbaine 
+
+## {.tabset}
 
 ### Hypothèse basse
 
