@@ -11,6 +11,9 @@ SSH = git2r::cred_ssh_key()
 git2r::pull(repo = repo, credentials = SSH)
 
 source(file = "The plan.R", echo = TRUE)
+drake::clean(list = c("data", "input_GEODES"))
+drake::make(the_plan)
+
 rmarkdown::render(input = "Description.Rmd", 
                   output_file = "Description.html")
 
