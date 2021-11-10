@@ -113,10 +113,10 @@ do_Carte <- function(Carte, Situation, N) {
   Carte %>%
     select(dep = code, geometry) %>%
     inner_join(x = Situation) %>%
-    mutate(Proba = 100 * Proba) %>%
+    mutate(`Probabilité R>1` = 100 * Proba) %>%
     st_as_sf() %>%
     choroLayer(
-      var = "Proba",
+      var = "Probabilité R>1",
       # method = "quantile",
       breaks = seq(0, 100, 10),
       # nclass = N,
