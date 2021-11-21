@@ -262,3 +262,63 @@ CartO <- function(data, selon) {
   return(GRAPHE)
 }
 
+Workflow_Reff = function(input, selon){
+  Calcul_incidence(input = input, selon = {{selon}}) %>% 
+    Estimate() %>% 
+    Extract_Reff() %>% 
+    return()
+}
+
+
+Lisser <- function(output_nat, selon) {
+  output_nat %>%
+    tq_transmute(mutate_fun = rollmean,
+                 k = 7) %>%
+    transmute(jour,
+              Nb = {{selon}}) %>% 
+    return()
+}
+
+Model_ARIMA <- function(test) {
+  Debut_vague =
+    test %>%
+    filter(jour > today() - dmonths(3)) %>%
+    top_n(n = 1, wt = -Nb) %>% pull(jour)
+  
+  Pics = 
+    test %>% 
+    group_by(quarter(jour), year(jour)) %>% 
+    top_n(n = 1, wt = Nb) 
+  
+  
+  Vague_data = test %>% filter(jour > Debut_vague)
+  
+  Modele = 
+    Vague_data %>%
+    timetk::tk_ts() %>% 
+    log() %>% forecast::auto.arima()  
+  
+  Modele %>% forecast::forecast(h = 90) %>% 
+    sweep::sw_sweep(timetk_idx = TRUE) %>% 
+    transmute(jour = index,
+              key,
+              Nb = exp(Nb)) %>% 
+    bind_rows(test, .) %>% 
+    replace_na(replace = list(key = "actual")) %>% 
+    return()
+}
+
+Graphe_ARIMA = function(graphe){
+  graphe %>% 
+    ggplot(mapping = aes(x = jour, y = Nb, colour = key))+
+    geom_line() +
+    theme_minimal() +
+    expand_limits(y = 0)
+}
+
+Workflow_ARIMA = function(output_nat, selon) {
+  Lisser(output_nat = output_nat,
+         selon = {{selon}}) %>%
+    Model_ARIMA() %>%
+    Graphe_ARIMA()
+}

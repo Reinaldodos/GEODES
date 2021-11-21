@@ -54,6 +54,9 @@ the_plan =
     Situation_nat_rea = Situation(Reff = Reff_nat_rea),
     Situation_region_rea = Situation(Reff = Reff_region_rea),
     Situation_dep_rea = Situation(Reff = Reff_dep_rea),
+    
+    Plot_ARIMA_hosp = Workflow_ARIMA(output_nat = output_nat, selon = hosp),
+    Plot_ARIMA_rea = Workflow_ARIMA(output_nat = output_nat, selon = rea),
 
     Carte = sf::st_read(dsn = "https://www.data.gouv.fr/fr/datasets/r/90b9341a-e1f7-4d75-a73c-bbc010c7feeb"),
     Bases_urbaines = sf::st_read("~/Téléchargements/fond_AAV2020_geo20/fond_AAV2020_geo20_metro/zMetro.shp"),
