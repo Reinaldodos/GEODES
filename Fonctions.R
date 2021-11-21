@@ -112,7 +112,7 @@ Situation = function(Reff) {
 do_Carte <- function(Carte, Situation, N) {
   Carte %>%
     select(dep = code, geometry) %>%
-    inner_join(x = Situation) %>%
+    inner_join(x = Situation, by = "dep") %>%
     mutate(`Probabilité R>1` = 100 * Proba) %>%
     st_as_sf() %>%
     choroLayer(
@@ -125,9 +125,10 @@ do_Carte <- function(Carte, Situation, N) {
     )
 }
 
-filtrer_GEODES <- function(input_GEODES) {
+filtrer_GEODES <- function(file) {
   input =
-    input_GEODES %>%
+    file %>%
+    rio::import(format = "csv") %>% 
     dplyr::filter(clage_65 == 0) %>%
     tidyr::extract(
       col = semaine_glissante,
@@ -271,9 +272,10 @@ Workflow_Reff = function(input, selon){
 
 
 Lisser <- function(output_nat, selon) {
+  require(tidyquant)
   output_nat %>%
-    tq_transmute(mutate_fun = rollmean,
-                 k = 7) %>%
+    tidyquant::tq_transmute(mutate_fun = rollmean,
+                            k = 7) %>%
     transmute(jour,
               Nb = {{selon}}) %>% 
     return()
@@ -321,4 +323,10 @@ Workflow_ARIMA = function(output_nat, selon) {
          selon = {{selon}}) %>%
     Model_ARIMA() %>%
     Graphe_ARIMA()
+}
+
+process_data <- function(data, Regions_dep) {
+  fetch_data(data = data, Regions_dep = Regions_dep) %>% 
+    merdouilles_dates() %>% 
+    return()
 }

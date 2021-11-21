@@ -42,7 +42,7 @@ Column {.tabset}
 ### Par région
 
 ```{r message=FALSE, warning=FALSE}
-readd(input) %>%
+readd(output) %>%
   select(Region = region_name, dep) %>% distinct() %>%
   inner_join(y = readd(Situation_region_hosp), by = "Region") %>% 
   do_Carte(Carte = readd(Carte), N = 10)
@@ -91,7 +91,7 @@ Column {.tabset}
 ### Par région
 
 ```{r message=FALSE, warning=FALSE}
-readd(input) %>%
+readd(output) %>%
   select(Region = region_name, dep) %>% distinct() %>%
   inner_join(y = readd(Situation_region_rea), by = "Region") %>% 
   do_Carte(Carte = readd(Carte), N = 10)
