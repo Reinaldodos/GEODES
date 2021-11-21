@@ -14,9 +14,12 @@ pacman::p_load(drake, tidyverse)
 source(file = "Fonctions.R")
 ```
 
-# Selon les entrées en hospitalisation {.tabset}
 
-## Estimation du R effectif {.tabset}
+Estimation du R effectif {data-navmenu="Selon les entrées en hospitalisation"}
+=====================================
+
+Column {.tabset}
+-------------------------------------
 
 ### R national
 
@@ -30,7 +33,11 @@ plotly::ggplotly(p = readd(Reff_nat_plot_hosp), dynamicTicks = T)
 plotly::ggplotly(p = readd(Reff_region_plot_hosp), dynamicTicks = T)
 ```
 
-## Probabilité d'un R effectif supérieur à 1 {.tabset}
+Probabilité d'un R effectif supérieur à 1 {data-navmenu="Selon les entrées en hospitalisation"}
+=====================================
+
+Column {.tabset}
+-------------------------------------
 
 ### Par région
 
@@ -49,9 +56,19 @@ do_Carte(Carte = readd(Carte),
          N = 10)
 ```
 
-# Selon les entrées en réanimation {.tabset}
+Projection des admissions {data-navmenu="Selon les entrées en hospitalisation"}
+=====================================
 
-## Estimation du R effectif {.tabset}
+```{r}
+plotly::ggplotly(p = readd(Plot_ARIMA_hosp),
+                 dynamicTicks = TRUE)
+```
+
+Estimation du R effectif {data-navmenu="Selon les entrées en réanimation"}
+=====================================
+
+Column {.tabset}
+-------------------------------------
 
 ### R national
 
@@ -65,7 +82,11 @@ plotly::ggplotly(p = readd(Reff_nat_plot_rea), dynamicTicks = T)
 plotly::ggplotly(p = readd(Reff_region_plot_rea), dynamicTicks = T)
 ```
 
-## Probabilité d'un R effectif supérieur à 1 {.tabset}
+Probabilité d'un R effectif supérieur à 1 {data-navmenu="Selon les entrées en réanimation"}
+=====================================
+
+Column {.tabset}
+-------------------------------------
 
 ### Par région
 
@@ -84,9 +105,20 @@ do_Carte(Carte = readd(Carte),
          N = 10)
 ```
 
-# Taux d'incidence par aire urbaine 
+Projection des admissions {data-navmenu="Selon les entrées en réanimation"}
+=====================================
 
-## {.tabset}
+```{r}
+plotly::ggplotly(p = readd(Plot_ARIMA_rea),
+                 dynamicTicks = TRUE)
+```
+
+
+Taux d'incidence par aire urbaine 
+==================================
+
+Column {.tabset}
+-------------------------------------
 
 ### Hypothèse basse
 
