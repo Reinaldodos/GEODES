@@ -300,7 +300,7 @@ Model_ARIMA <- function(test) {
     timetk::tk_ts() %>% 
     log() %>% forecast::auto.arima()  
   
-  Modele %>% forecast::forecast(h = 90) %>% 
+  Modele %>% forecast::forecast(h = 80) %>% 
     sweep::sw_sweep(timetk_idx = TRUE) %>% 
     transmute(jour = index,
               key,
