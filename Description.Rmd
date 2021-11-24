@@ -24,7 +24,10 @@ Column {.tabset}
 ### R national
 
 ```{r}
-plotly::ggplotly(p = readd(Reff_nat_plot_hosp), dynamicTicks = T)
+test = 
+  readd(Reff_nat_plot_hosp) +
+  theme(legend.position = "none") 
+plotly::ggplotly(p = test, dynamicTicks = T)
 ```
 
 ### R par région
@@ -73,7 +76,10 @@ Column {.tabset}
 ### R national
 
 ```{r}
-plotly::ggplotly(p = readd(Reff_nat_plot_rea), dynamicTicks = T)
+test = 
+  readd(Reff_nat_plot_rea) +
+  theme(legend.position = "none") 
+plotly::ggplotly(p = test, dynamicTicks = T)
 ```
 
 ### R par région
