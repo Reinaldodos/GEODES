@@ -282,10 +282,11 @@ Lisser <- function(output_nat, selon) {
 }
 
 Model_ARIMA <- function(test) {
+  require(lubridate)
   Debut_vague =
     test %>%
-    filter(jour > today() - dmonths(3)) %>%
-    top_n(n = 1, wt = -Nb) %>% pull(jour)
+    dplyr::filter(jour > today() - dmonths(3)) %>%
+    top_n(n = 1, wt = -Nb) %>% dplyr::pull(jour)
   
   Pics = 
     test %>% 
@@ -300,7 +301,7 @@ Model_ARIMA <- function(test) {
     timetk::tk_ts() %>% 
     log() %>% forecast::auto.arima()  
   
-  Modele %>% forecast::forecast(h = 80) %>% 
+  Modele %>% forecast::forecast(h = 40) %>% 
     sweep::sw_sweep(timetk_idx = TRUE) %>% 
     transmute(jour = index,
               key,
