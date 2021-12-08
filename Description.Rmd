@@ -15,7 +15,7 @@ source(file = "Fonctions.R")
 ```
 
 
-Estimation du R effectif {data-navmenu="Selon les entrées en hospitalisation"}
+Estimation du R effectif {data-navmenu="Selon les hospitalisations"}
 =====================================
 
 Column {.tabset}
@@ -36,7 +36,7 @@ plotly::ggplotly(p = test, dynamicTicks = T)
 plotly::ggplotly(p = readd(Reff_region_plot_hosp), dynamicTicks = T)
 ```
 
-Probabilité d'un R effectif supérieur à 1 {data-navmenu="Selon les entrées en hospitalisation"}
+Probabilité d'un R effectif supérieur à 1 {data-navmenu="Selon les hospitalisations"}
 =====================================
 
 Column {.tabset}
@@ -59,7 +59,7 @@ do_Carte(Carte = readd(Carte),
          N = 10)
 ```
 
-Projection des admissions {data-navmenu="Selon les entrées en hospitalisation"}
+Projection d'occupation {data-navmenu="Selon les hospitalisations"}
 =====================================
 
 ```{r}
@@ -67,7 +67,7 @@ plotly::ggplotly(p = readd(Plot_ARIMA_hosp),
                  dynamicTicks = TRUE)
 ```
 
-Estimation du R effectif {data-navmenu="Selon les entrées en réanimation"}
+Estimation du R effectif {data-navmenu="Selon les réanimations"}
 =====================================
 
 Column {.tabset}
@@ -88,7 +88,7 @@ plotly::ggplotly(p = test, dynamicTicks = T)
 plotly::ggplotly(p = readd(Reff_region_plot_rea), dynamicTicks = T)
 ```
 
-Probabilité d'un R effectif supérieur à 1 {data-navmenu="Selon les entrées en réanimation"}
+Probabilité d'un R effectif supérieur à 1 {data-navmenu="Selon les réanimations"}
 =====================================
 
 Column {.tabset}
@@ -111,7 +111,7 @@ do_Carte(Carte = readd(Carte),
          N = 10)
 ```
 
-Projection des admissions {data-navmenu="Selon les entrées en réanimation"}
+Projection d'occupation {data-navmenu="Selon les réanimations"}
 =====================================
 
 ```{r}
