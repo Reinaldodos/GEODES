@@ -221,9 +221,10 @@ Incidence_aires_urbaines <-
 
 CartO <- function(data, selon) {
   require(magrittr)
-  Couleurs =
-    RColorBrewer::brewer.pal(n = 5, name = "BrBG") %>% 
-    c("#000000", .) %>% rev()
+  ZeroCovid = colorRampPalette(colors = c("#00441b", "#f7f7f7"))
+  Covid = colorRampPalette(colors = c("#f7f7f7", "red"))
+  Alarma = colorRampPalette(colors = c("red", "#000000"))
+  Couleurs = c(ZeroCovid(3), Covid(3), Alarma(4)) %>% unique()
   
   GRAPHE =
     data %>%
@@ -233,14 +234,17 @@ CartO <- function(data, selon) {
           selon
         }
       },
-      breaks = c(-Inf, 10, 50, 150, 250, 400, Inf),
+      breaks = c(-Inf, 10, 50, 150, 250, 400, 750, 1000, 2000, Inf),
       labels = c(
         "< 10 (Zero Covid)",
-        "[10;50[ (Zone verte)",
-        "[50;150[ (Alerte)",
-        "[150;250[ (Alerte renforcée)",
-        "> 250 (Surveillance renforcée)",
-        "> 400 (Point de vigilance très fort)"
+        "[10; 50[ (Zone verte)",
+        "[50; 150[ (Alerte)",
+        "[150; 250[ (Alerte renforcée)",
+        "[250; 500] (Surveillance renforcée)",
+        "[500; 750] (Vague)",
+        "[750; 1000] (Raz-de-marée)",
+        "[1000; 2000] (Tsunami)",
+        "> 2000 (Armageddon)"
       )
     )) %>%
     ggplot() +
