@@ -224,7 +224,7 @@ CartO <- function(data, selon) {
   ZeroCovid = colorRampPalette(colors = c("#00441b", "#f7f7f7"))
   Covid = colorRampPalette(colors = c("#f7f7f7", "red"))
   Alarma = colorRampPalette(colors = c("red", "#000000"))
-  Couleurs = c(ZeroCovid(3), Covid(3), Alarma(4)) %>% unique()
+  Couleurs = c(ZeroCovid(3), Covid(4), Alarma(4)) %>% unique()
   
   GRAPHE =
     data %>%
