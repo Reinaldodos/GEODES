@@ -46,8 +46,8 @@ Calcul_incidence <- function(input, selon) {
   require(magrittr)
   require(incidence)
   input %<>% filter({{selon}} > 0)
-  Dates = input %>% pull(jour) %>% as.character()
-  REPS = input %>% pull({{selon}})
+  Dates = input %>% dplyr::pull(jour) %>% as.character()
+  REPS = input %>% dplyr::pull({{selon}})
   
   input_list =
     pmap(.f = rep,
@@ -298,14 +298,15 @@ Model_ARIMA <- function(test) {
     top_n(n = 1, wt = Nb) 
   
   
-  Vague_data = test %>% filter(jour > Debut_vague)
+  Vague_data = test 
+  # Vague_data = test %>% filter(jour > Debut_vague)
   
   Modele = 
     Vague_data %>%
     timetk::tk_ts() %>% 
     log() %>% forecast::auto.arima()  
   
-  Modele %>% forecast::forecast(h = 40) %>% 
+  Modele %>% forecast::forecast(h = 30) %>% 
     sweep::sw_sweep(timetk_idx = TRUE) %>% 
     transmute(jour = index,
               key,
