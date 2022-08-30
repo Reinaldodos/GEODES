@@ -129,9 +129,9 @@ filtrer_GEODES <- function(file) {
   input =
     file %>%
     rio::import(format = "csv") %>% 
-    dplyr::filter(clage_65 == 0) %>%
+    dplyr::filter(cl_age65 == 0) %>%
     tidyr::extract(
-      col = semaine_glissante,
+      col = sg,
       into = c("day_start", "day_end"),
       regex = "([0-9]{4}-[0-9]{2}-[0-9]{2})-([0-9]{4}-[0-9]{2}-[0-9]{2})",
       remove = FALSE
@@ -139,9 +139,9 @@ filtrer_GEODES <- function(file) {
     dplyr::filter(day_end == max(day_end)) %>%
     dplyr::mutate(across(.cols = starts_with("day"),
                   .fns = lubridate::ymd)) %>%
-    tidyr::separate(col = ti_classe,
+    tidyr::separate(col = Ti,
                     into = c("low", "high"),
-                    sep = ";") %>%
+                    sep = "-") %>%
     dplyr::mutate(across(
       .cols = c(low, high),
       .fns = str_remove_all,
@@ -166,7 +166,7 @@ Incidence_aires_urbaines <-
     output =
       inner_join(x = Population,
                  y = input,
-                 by = c("CODGEO" = "com2020")) %>%
+                 by = c("CODGEO" = "com")) %>%
       mutate(LOW = low / 1e5 * P17_POP,
              HIGH = high / 1e5 * P17_POP)
     

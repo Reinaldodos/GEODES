@@ -3,8 +3,8 @@ ssh_auth_sock <- system("echo $SSH_AUTH_SOCK", intern = TRUE)
 Sys.setenv(SSH_AUTH_SOCK = ssh_auth_sock)
 Sys.setenv(RSTUDIO_PANDOC = "/usr/lib/rstudio/bin/pandoc")
 
-require(git2r)
-require(rmarkdown)
+pacman::p_load(git2r)
+pacman::p_load(rmarkdown)
 repo = git2r::repository()
 SSH = git2r::cred_ssh_key()
 
